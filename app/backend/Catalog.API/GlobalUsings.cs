@@ -1,0 +1,16 @@
+﻿global using Catalog.API.DataAccess.Entities;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Catalog.API.DataAccess.Configurations;
+global using Catalog.API.DataAccess.Infrastructure;
+global using Catalog.API.Abstractions.Repositories;
+global using Catalog.API.Models;
+global using AutoMapper;
+global using Catalog.API.Abstractions.Services;
+global using Catalog.API.DataAccess.Repositories;
+global using Catalog.API.Application.Services;
+global using Microsoft.IdentityModel.Tokens;
+global using Microsoft.OpenApi.Models;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Catalog.API.Requests;
