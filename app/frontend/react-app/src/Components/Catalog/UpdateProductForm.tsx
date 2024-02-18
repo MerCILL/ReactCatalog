@@ -1,15 +1,14 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import ProductModelRequest from "./Interfaces/ProductModelRequest";
+import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import './AddProductForm.css';
+import ProductModelRequest from "./Interfaces/ProductModelRequest";
 
-interface AddProductFormProps {
-  fetchCatalogProducts: () => void;
-  setIsAddingProduct: Dispatch<SetStateAction<boolean>>;
+interface UpdateProductFormProps {
+    productId: number;
+    fetchCatalogProducts: () => Promise<void>;
+    setIsUpdatingProduct: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const AddProductForm = ({ fetchCatalogProducts, setIsAddingProduct }: AddProductFormProps) => {
+const UpdateProductForm = ({ productId, fetchCatalogProducts, setIsUpdatingProduct }: UpdateProductFormProps) => {
     const [product, setProduct] = useState<ProductModelRequest>({
         title: '',
         pictureurl: '',
@@ -17,8 +16,6 @@ const AddProductForm = ({ fetchCatalogProducts, setIsAddingProduct }: AddProduct
         typeid: 0,
         brandid: 0,
     });
-
-    const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setProduct({
@@ -31,23 +28,21 @@ const AddProductForm = ({ fetchCatalogProducts, setIsAddingProduct }: AddProduct
         event.preventDefault();
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
-            const result = await axios.post('http://localhost:5000/catalog/products', product, {
-                headers: {Authorization: `Bearer ${accessToken}`},
+            const result = await axios.put(`http://localhost:5000/catalog/products/${productId}`, product, {
+                headers: { Authorization: `Bearer ${accessToken}` },
             });
             console.log(result.data);
-            navigate('/');
             fetchCatalogProducts(); 
-            setIsAddingProduct(false); 
         }
     }
 
     const handleClose = () => {
-        setIsAddingProduct(false);
+        setIsUpdatingProduct(null);
     }
 
     return (
-        <form onSubmit={handleSubmit} className="add-product-form">
-               <button type="button" onClick={handleClose}>X</button>
+        <form onSubmit={handleSubmit} className="update-product-form">
+        <button type="button" onClick={handleClose}>X</button>
             <div className="form-group">
                 <label>Title:</label>
                 <input type="text" name="title" value={product.title} onChange={handleChange} className="form-control" />
@@ -68,9 +63,9 @@ const AddProductForm = ({ fetchCatalogProducts, setIsAddingProduct }: AddProduct
                 <label>BrandId:</label>
                 <input type="number" name="brandid" value={product.brandid} onChange={handleChange} className="form-control" />
             </div>
-            <button type="submit" className="btn btn-primary">Добавить товар</button>
+            <button type="submit" className="btn btn-primary">Update</button>
         </form>
     )
 }
 
-export default AddProductForm;
+export default UpdateProductForm;

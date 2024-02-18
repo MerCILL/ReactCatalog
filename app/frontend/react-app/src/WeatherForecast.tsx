@@ -30,14 +30,14 @@ function WeatherTable() {
 
   return (
     <div>
-      <button onClick={fetchData}>Обновить данные о погоде</button>
+      <button onClick={fetchData}>Refresh</button>
       <table>
         <thead>
           <tr>
-            <th>Дата</th>
-            <th>Температура (C)</th>
-            <th>Температура (F)</th>
-            <th>Сводка</th>
+            <th>Date</th>
+            <th>Temperature (C)</th>
+            <th>Temperature (F)</th>
+            <th>Summary</th>
           </tr>
         </thead>
         <tbody>

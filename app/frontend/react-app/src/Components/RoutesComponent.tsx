@@ -19,7 +19,7 @@ interface User {
 
   const RoutesComponent: React.FC<RoutesProps> = ({ user, onLogin, onLogout }) => (
     <Routes>
-      <Route path='/home' element={user ? <Home user={user} onLogout={onLogout} /> : <LoginForm onLogin={onLogin} />} />
+      <Route path='/' element={user ? <Home user={user} onLogout={onLogout} /> : <LoginForm onLogin={onLogin} />} />
       <Route path='/signin-oidc' element={<SignInOidc />} />
       <Route path='/add-product' element={<AddProductForm fetchCatalogProducts={function (): void {
         throw new Error('Function not implemented.');

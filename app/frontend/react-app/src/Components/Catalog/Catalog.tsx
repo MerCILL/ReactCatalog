@@ -3,14 +3,16 @@ import ProductModel from "./Interfaces/ProductModel";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AddProductForm from "./AddProductForm";
+import DeleteProductForm from "./DeleteProductForm";
+import UpdateProductForm from "./UpdateProductForm";
 
 export default function Catalog() {
     const[products, setProducts] = useState<ProductModel[]>([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAddingProduct, setIsAddingProduct] = useState(false);
+    const [updatingProductId, setUpdatingProductId] = useState<number | null>(null);
 
     useEffect(() => {
-        // Получаем роль из localStorage и проверяем, является ли пользователь администратором
         const role = localStorage.getItem('role');
         setIsAdmin(role === 'Admin');
     }, []);
@@ -47,6 +49,9 @@ export default function Catalog() {
                                 <p className="card-text">Price: {product.price}</p>
                                 <p className="card-text">Type: {product.type.title}</p>
                                 <p className="card-text">Brand: {product.brand.title}</p>
+                                {isAdmin && <DeleteProductForm productId={product.id} fetchCatalogProducts={fetchCatalogProducts} />} 
+                                {isAdmin && ( <button className="btn btn-primary" onClick={() => setUpdatingProductId(product.id)}>Update</button> )}
+                                {updatingProductId === product.id && <UpdateProductForm productId={product.id} fetchCatalogProducts={fetchCatalogProducts} setIsUpdatingProduct={setUpdatingProductId} />}
                             </div>
                         </div>
                     </div>
